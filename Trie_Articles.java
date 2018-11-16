@@ -10,6 +10,7 @@ class Trie_Articles{
     public static ArrayList<String> finalWordSet = new ArrayList<>();
     public static Trie t = new Trie(); 
     HashMap<String,Integer> hitCount = new HashMap<String, Integer>();
+    ArrayList<String> wordArrayCompanies = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
         //Trie t = new Trie(); 
@@ -41,17 +42,18 @@ class Trie_Articles{
         System.out.println(finalWordSet);
 
         // t.insert("the");
-         t.insert("Microsoft corporation");
+         //t.insert("Microsoft corporation");
         // t.insert("amAzon");
-         System.out.println(t.search("Microsoft corporation"));
+         //System.out.println(t.search("Microsoft corporation"));
         a.readCompaniesFile();
+        a.wordArrayMatch();
+        //return;
         
     }
     public void readCompaniesFile() throws Exception{
 
         File f = new File("companies.dat");
         Scanner sc = new Scanner(f);
-        ArrayList<String> temp = new ArrayList<>();
         while(sc.hasNextLine()){
             String tempArr[] = sc.nextLine().split("\t");
 
@@ -63,17 +65,83 @@ class Trie_Articles{
                     }
                       
                 }
-                temp.add(newTemp); 
+                wordArrayCompanies.add(newTemp); 
                 //temp.add(tempArr[i]);
             }
 
         }
 
-        System.out.println(temp);
+        System.out.println(wordArrayCompanies);
+    }
+    public void wordArrayMatch()
+    {
+        //int count =0;
+
+        for(int i =0; i<wordArrayCompanies.size();i++)
+        {
+            //count =0;
+            String temp[] = wordArrayCompanies.get(i).split(" ");
+            //System.out.println(temp.length);
+            if(temp.length>1){
+                //System.out.println("test");
+                //count = temp.length;
+                for(int k=0;k<temp.length;k++){
+
+                    if(finalWordSet.contains(temp[k]) == true)
+                    {
+                        int in = finalWordSet.indexOf(temp[k]);
+                        //System.out.println(in);
+                        int j=0;
+                        int count = 0;
+                        int inCounter = in;
+                        //System.out.println(temp.length);
+                        System.out.println(finalWordSet.get(inCounter) +" "+ temp[j]);
+                        while(j<temp.length){
+                            //System.out.println("test");
+                            if(finalWordSet.get(inCounter).matches(temp[j])){
+                                count++;
+                                j++;
+                                inCounter = inCounter + 1;
+                                //System.out.println("test");
+                            }
+                            else{break;}
+                        }
+                        System.out.println(j);
+                        if(count == temp.length){
+                            System.out.println(count);
+                            int x=in;
+                            int l =0;
+                            String wordTemp = "";
+                            while(l<count)
+                            {
+                                System.out.println("test");
+                                wordTemp = wordTemp + finalWordSet.get(x);
+                                if(l!= count-1){
+                                    wordTemp = wordTemp + " ";
+                                }
+                                finalWordSet.remove(x);
+                                //System.out.println("wordTemp");
+                                l++;
+                            }
+                            finalWordSet.add(wordTemp);
+                            
+                        }
+                    }
+                    else{
+                        break;
+                    }
+
+                }
+
+            }
+        }
+        System.out.println(finalWordSet);
+
     }
 
-
 }
+
+
 
 class TNode     //https://www.sanfoundry.com/java-program-implement-trie/
 {
