@@ -387,6 +387,7 @@ class Trie_Articles{
 
         System.out.format("%"+totalWordsSpaceCount+"s"+"%"+(totalWordsSpaceCount/2)+"d","Total Words",finalWordSet.size());
         System.out.println();
+        
 
     }
 
