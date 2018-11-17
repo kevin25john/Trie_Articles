@@ -17,6 +17,7 @@ class Trie_Articles{
         String message ="";
         Trie_Articles a = new Trie_Articles();
         Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the Article: ");
         String messageTemp = sc.nextLine();
         String[] words = messageTemp.split("\\W+");
         for(int i=0;i<words.length;i++){
@@ -68,8 +69,8 @@ class Trie_Articles{
         }
         //System.out.println(t.search("Verizon Wireless"));
         //return;
-        //a.findHitRate();
-        //System.out.println(hitCount);
+        a.findHitRate();
+        System.out.println(hitCount);
         
     }
     public void readCompaniesFile() throws Exception{
@@ -262,6 +263,33 @@ class Trie_Articles{
 
 
          
+
+    }
+
+
+    public void relevanceCalculate(){
+
+        int relevance = 0;
+        String companyName = "";
+        int hitCountNum = 0;
+
+        Iterator it = hitCount.entrySet().iterator();
+      
+        while(it.hasNext()){                                        //https://stackoverflow.com/questions/1066589/iterate-through-a-hashmap
+            Map.Entry val = (Map.Entry)it.next();
+            charac.add(val.getKey().toString().charAt(0));
+            String temp = val.getValue().toString();
+            charValues.add(Integer.parseInt(temp));
+            
+            //it.remove();
+        }
+
+        // for(int i=0;i<hitCount.size();i++){
+            
+        //     hitCountNum = hitCount.get(0);
+
+        // }
+
 
     }
 
