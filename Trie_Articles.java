@@ -9,7 +9,7 @@ class Trie_Articles{
 
     public static ArrayList<String> finalWordSet = new ArrayList<>();
     public static Trie t = new Trie(); 
-    HashMap<String,Integer> hitCount = new HashMap<String, Integer>();
+    public static HashMap<String,Integer> hitCount = new HashMap<String, Integer>();
     ArrayList<String> wordArrayCompanies = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
@@ -26,20 +26,22 @@ class Trie_Articles{
         //System.out.println();
 
         //System.out.println(finalWordSet);
-        for(int i =0; i<finalWordSet.size();i++){
-            if(finalWordSet.get(i).matches("a") || finalWordSet.get(i).matches("A") || finalWordSet.get(i).matches("an") || 
-            finalWordSet.get(i).matches("An") || finalWordSet.get(i).matches("the") || finalWordSet.get(i).matches("The") || 
-            finalWordSet.get(i).matches("but") || finalWordSet.get(i).matches("But") || finalWordSet.get(i).matches("or") || 
-            finalWordSet.get(i).matches("Or") || finalWordSet.get(i).matches("and") || finalWordSet.get(i).matches("And")){
-                System.out.println(finalWordSet.get(i));
-                finalWordSet.remove(finalWordSet.get(i));
-                i--;
-            }           
-        }
+        // for(int i =0; i<finalWordSet.size();i++){
+        //     if(finalWordSet.get(i).matches("a") || finalWordSet.get(i).matches("A") || finalWordSet.get(i).matches("an") || 
+        //     finalWordSet.get(i).matches("An") || finalWordSet.get(i).matches("the") || finalWordSet.get(i).matches("The") || 
+        //     finalWordSet.get(i).matches("but") || finalWordSet.get(i).matches("But") || finalWordSet.get(i).matches("or") || 
+        //     finalWordSet.get(i).matches("Or") || finalWordSet.get(i).matches("and") || finalWordSet.get(i).matches("And")){
+        //         System.out.println(finalWordSet.get(i));
+        //         finalWordSet.remove(finalWordSet.get(i));
+        //         i--;
+        //     }           
+        // }
 
         //System.out.println();
         //a, an, the, and, or, but
-        System.out.println(finalWordSet);
+        
+        
+        //System.out.println(finalWordSet);
 
         // t.insert("the");
          //t.insert("Microsoft corporation");
@@ -47,12 +49,32 @@ class Trie_Articles{
          //System.out.println(t.search("Microsoft corporation"));
         a.readCompaniesFile();
         a.wordArrayMatch();
+
+        for(int i =0; i<finalWordSet.size();i++){
+            if(finalWordSet.get(i).matches("a") || finalWordSet.get(i).matches("A") || finalWordSet.get(i).matches("an") || 
+            finalWordSet.get(i).matches("An") || finalWordSet.get(i).matches("the") || finalWordSet.get(i).matches("The") || 
+            finalWordSet.get(i).matches("but") || finalWordSet.get(i).matches("But") || finalWordSet.get(i).matches("or") || 
+            finalWordSet.get(i).matches("Or") || finalWordSet.get(i).matches("and") || finalWordSet.get(i).matches("And")){
+                //System.out.println(finalWordSet.get(i));
+                finalWordSet.remove(finalWordSet.get(i));
+                i--;
+            }           
+        }
+        //System.out.println(finalWordSet);
+
+        for (int i=0;i<finalWordSet.size();i++){
+
+            t.insert(finalWordSet.get(i));
+        }
+        //System.out.println(t.search("Verizon Wireless"));
         //return;
+        //a.findHitRate();
+        //System.out.println(hitCount);
         
     }
     public void readCompaniesFile() throws Exception{
 
-        File f = new File("companies.dat");
+        File f = new File("company.dat");
         Scanner sc = new Scanner(f);
         while(sc.hasNextLine()){
             String tempArr[] = sc.nextLine().split("\t");
@@ -66,17 +88,26 @@ class Trie_Articles{
                       
                 }
                 wordArrayCompanies.add(newTemp); 
+                
                 //temp.add(tempArr[i]);
             }
-
+            
+            wordArrayCompanies.add("SEPERATOR");
+            
         }
 
-        System.out.println(wordArrayCompanies);
+        //System.out.println(wordArrayCompanies);
+
+    
+
     }
+
     public void wordArrayMatch()
     {
         //int count =0;
-
+        //System.out.println("test");
+        System.out.println(wordArrayCompanies);
+        System.out.println(finalWordSet);
         for(int i =0; i<wordArrayCompanies.size();i++)
         {
             //count =0;
@@ -85,57 +116,152 @@ class Trie_Articles{
             if(temp.length>1){
                 //System.out.println("test");
                 //count = temp.length;
-                for(int k=0;k<temp.length;k++){
+                //for(int k=0;k<temp.length;k++){
+                for(int k=0;k<finalWordSet.size();k++){
+                    //int k=0;
+                    //System.out.println(finalWordSet.get(finalWordSet.indexOf(temp[k])));
+                    //System.out.println(finalWordSet.get(finalWordSet.indexOf(temp[k+1])));
+                    //while(finalWordSet.contains(temp[k]) != false ){//&& finalWordSet.get(finalWordSet.indexOf(temp[k+1])).matches(temp[k+1])){
+                        //System.out.println("test");
+                        // if(finalWordSet.contains(temp[k]) == true)// && finalWordSet.get(finalWordSet.indexOf(temp[k+1])).matches(temp[k+1]))
+                        // {
+                           
+                        //int in = finalWordSet.indexOf(temp[k]);
+                    int in =k;
+                    int j=0;
+                    int count = 0;
+                    int inCounter = in;
+                    int tempArraylistCounter=k;
+                    // while(j<temp.length){
+                    //     if(finalWordSet.get(inCounter).matches(temp[j])){
+                    //         count++;
+                    //         j++;
+                    //         inCounter = inCounter + 1;
+                    //     }
+                    //     else{break;}                            }
+                    
+                    while(tempArraylistCounter<finalWordSet.size() && finalWordSet.get(tempArraylistCounter).matches(temp[j])){
+                        tempArraylistCounter++;
+                        j++;
+                        count++;
 
-                    if(finalWordSet.contains(temp[k]) == true)
-                    {
-                        int in = finalWordSet.indexOf(temp[k]);
-                        //System.out.println(in);
-                        int j=0;
-                        int count = 0;
-                        int inCounter = in;
-                        //System.out.println(temp.length);
-                        System.out.println(finalWordSet.get(inCounter) +" "+ temp[j]);
-                        while(j<temp.length){
+                        if(j==temp.length){
+                            break;
+                        }
+                    }
+
+                    if(count == temp.length){
+                            //System.out.println(count);
+                        int x=in;
+                        int l =0;
+                        String wordTemp = "";
+                        while(l<count)
+                        {
                             //System.out.println("test");
-                            if(finalWordSet.get(inCounter).matches(temp[j])){
-                                count++;
-                                j++;
-                                inCounter = inCounter + 1;
-                                //System.out.println("test");
+                            wordTemp = wordTemp + finalWordSet.get(x);
+                            if(l!= count-1){                                        
+                                wordTemp = wordTemp + " ";
                             }
-                            else{break;}
+                            finalWordSet.remove(x);
+                            //System.out.println("wordTemp");
+                            l++;
                         }
-                        System.out.println(j);
-                        if(count == temp.length){
-                            System.out.println(count);
-                            int x=in;
-                            int l =0;
-                            String wordTemp = "";
-                            while(l<count)
-                            {
-                                System.out.println("test");
-                                wordTemp = wordTemp + finalWordSet.get(x);
-                                if(l!= count-1){
-                                    wordTemp = wordTemp + " ";
-                                }
-                                finalWordSet.remove(x);
-                                //System.out.println("wordTemp");
-                                l++;
-                            }
-                            finalWordSet.add(wordTemp);
+                        finalWordSet.add(wordTemp);                            
+                    }
+                        // }
+                        // else{
+                        //     break;
+                        // }
+                        //System.out.println("test");
+                    //}
+
+                    // if(finalWordSet.contains(temp[k]) == true){}
+                    // else{break;}
+
+                    // if(finalWordSet.contains(temp[k]) == true)
+                    // {
+                    //     int in = finalWordSet.indexOf(temp[k]);
+                    //     //System.out.println(in);
+                    //     int j=0;
+                    //     int count = 0;
+                    //     int inCounter = in;
+                    //     //System.out.println(temp.length);
+                    //     //System.out.println(finalWordSet.get(inCounter) +" "+ temp[j]);
+                    //     while(j<temp.length){
+                    //         //System.out.println("test");
+                    //         if(finalWordSet.get(inCounter).matches(temp[j])){
+                    //             count++;
+                    //             j++;
+                    //             inCounter = inCounter + 1;
+                    //             //System.out.println("test");
+                    //         }
+                    //         else{break;}
+                    //     }
+                    //     //System.out.println(j);
+                    //     if(count == temp.length){
+                    //         //System.out.println(count);
+                    //         int x=in;
+                    //         int l =0;
+                    //         String wordTemp = "";
+                    //         while(l<count)
+                    //         {
+                    //             //System.out.println("test");
+                    //             wordTemp = wordTemp + finalWordSet.get(x);
+                    //             if(l!= count-1){
+                    //                 wordTemp = wordTemp + " ";
+                    //             }
+                    //             finalWordSet.remove(x);
+                    //             //System.out.println("wordTemp");
+                    //             l++;
+                    //         }
+                    //         finalWordSet.add(wordTemp);
                             
-                        }
-                    }
-                    else{
-                        break;
-                    }
+                    //     }
+                    // }
+                    // else{
+                    //     break;
+                    // }
 
                 }
 
             }
         }
         System.out.println(finalWordSet);
+        System.out.println();
+
+    }
+
+    public void findHitRate(){
+        //Finding hitrate with normalization
+        String mainCompany = "";
+        int hitCounter = 0;
+        for(int i=0;i<wordArrayCompanies.size();i++){
+            
+            if(i==0){
+                mainCompany = wordArrayCompanies.get(i);
+            }
+
+            if(wordArrayCompanies.get(i).matches("SEPERATOR") && i!=wordArrayCompanies.size()-1){
+                hitCount.put(mainCompany, hitCounter);
+                mainCompany = wordArrayCompanies.get(i+1);
+                hitCounter = 0;
+            }
+
+            if(t.search(wordArrayCompanies.get(i))){
+
+                hitCounter++;
+
+            }
+
+            if(wordArrayCompanies.get(i).matches("SEPERATOR") && i == wordArrayCompanies.size()-1){
+                hitCount.put(mainCompany, hitCounter);
+                hitCounter = 0;
+            }
+
+        }
+
+
+         
 
     }
 
