@@ -4,13 +4,14 @@ import java.util.*;
 
 import java.io.*;
 import java.lang.*;
+import java.text.DecimalFormat;
 
 class Trie_Articles{
 
     public static ArrayList<String> finalWordSet = new ArrayList<>();
     public static Trie t = new Trie(); 
     public static HashMap<String,Integer> hitCount = new HashMap<String, Integer>();
-    public static HashMap<String,Integer> relevance = new HashMap<String, Integer>();
+    public static HashMap<String,Double> relevance = new HashMap<String, Double>();
     ArrayList<String> wordArrayCompanies = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
@@ -72,6 +73,9 @@ class Trie_Articles{
         //return;
         a.findHitRate();
         System.out.println(hitCount);
+        a.relevanceCalculate();
+        System.out.println(finalWordSet.size());
+        System.out.println(relevance);
         
     }
     public void readCompaniesFile() throws Exception{
@@ -271,9 +275,9 @@ class Trie_Articles{
 
     public void relevanceCalculate(){
 
-        int relevanceCount = 0;
+        double relevanceCount;
         String companyName = "";
-        int hitCountNum = 0;
+        double hitCountNum = 0;
 
         Iterator it = hitCount.entrySet().iterator();
       
@@ -281,8 +285,14 @@ class Trie_Articles{
             Map.Entry val = (Map.Entry)it.next();
             companyName = val.getKey().toString();
             String temp = val.getValue().toString();
-            hitCountNum = Integer.parseInt(temp);
-            relevanceCount = hitCountNum/finalWordSet.size();
+            hitCountNum = Double.parseDouble(temp);
+            DecimalFormat df = new DecimalFormat("####.####");
+            double totalWords = Double.parseDouble(Integer.toString(finalWordSet.size()));
+            double tempRel = (hitCountNum/totalWords)*100;
+            //String tempRelevance = Double.toString(tempRel);
+            String tempFormat = df.format(tempRel);//Double.parseDouble(tempRelevance));
+            System.out.println(tempFormat);
+            relevanceCount = Double.parseDouble(tempFormat);
             relevance.put(companyName, relevanceCount);
             //it.remove();
         }
@@ -296,7 +306,12 @@ class Trie_Articles{
 
     }
 
+    public void display(){
+        
+    }
+
 }
+
 
 
 
