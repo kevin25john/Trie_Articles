@@ -10,6 +10,7 @@ class Trie_Articles{
     public static ArrayList<String> finalWordSet = new ArrayList<>();
     public static Trie t = new Trie(); 
     public static HashMap<String,Integer> hitCount = new HashMap<String, Integer>();
+    public static HashMap<String,Integer> relevance = new HashMap<String, Integer>();
     ArrayList<String> wordArrayCompanies = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
@@ -248,11 +249,12 @@ class Trie_Articles{
                 hitCounter = 0;
             }
 
-            if(t.search(wordArrayCompanies.get(i))){
-
-                hitCounter++;
-
+            for(int j=0;j<finalWordSet.size();j++){
+                if(wordArrayCompanies.get(i).matches(finalWordSet.get(j))){
+                    hitCounter++;
+                }                                
             }
+                
 
             if(wordArrayCompanies.get(i).matches("SEPERATOR") && i == wordArrayCompanies.size()-1){
                 hitCount.put(mainCompany, hitCounter);
@@ -269,7 +271,7 @@ class Trie_Articles{
 
     public void relevanceCalculate(){
 
-        int relevance = 0;
+        int relevanceCount = 0;
         String companyName = "";
         int hitCountNum = 0;
 
@@ -277,10 +279,11 @@ class Trie_Articles{
       
         while(it.hasNext()){                                        //https://stackoverflow.com/questions/1066589/iterate-through-a-hashmap
             Map.Entry val = (Map.Entry)it.next();
-            charac.add(val.getKey().toString().charAt(0));
+            companyName = val.getKey().toString();
             String temp = val.getValue().toString();
-            charValues.add(Integer.parseInt(temp));
-            
+            hitCountNum = Integer.parseInt(temp);
+            relevanceCount = hitCountNum/finalWordSet.size();
+            relevance.put(companyName, relevanceCount);
             //it.remove();
         }
 
