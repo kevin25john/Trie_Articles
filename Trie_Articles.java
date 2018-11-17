@@ -76,6 +76,7 @@ class Trie_Articles{
         a.relevanceCalculate();
         System.out.println(finalWordSet.size());
         System.out.println(relevance);
+        a.display();
         
     }
     public void readCompaniesFile() throws Exception{
@@ -307,7 +308,86 @@ class Trie_Articles{
     }
 
     public void display(){
+
+        String totalWords  = "Total Words";
+        int totalWordsCount = totalWords.length();
+
+        int firstColumnCounter = 0;
+
+        String hitCountt = "Hit Count";
+
+        int hitCountSpaceCount = hitCountt.length()+3;
+        int relevanceSpaceCount = 12;
+
+
+        Iterator it = hitCount.entrySet().iterator();
+      
+        while(it.hasNext()){                                        //https://stackoverflow.com/questions/1066589/iterate-through-a-hashmap
+            Map.Entry val = (Map.Entry)it.next();
+            String companyName = val.getKey().toString();
+            if(companyName.length() > firstColumnCounter){
+                firstColumnCounter = companyName.length();
+            }
+            //it.remove();
+        }
+        firstColumnCounter = firstColumnCounter+3;
+        Iterator itNew = hitCount.entrySet().iterator();
+
+        System.out.format("%"+firstColumnCounter+"s"+"%"+hitCountSpaceCount+"s"+"%"+relevanceSpaceCount+"s","Company","Hit Count","Relevance");
+        int spaceCount = firstColumnCounter + hitCountSpaceCount + relevanceSpaceCount;
+        System.out.println();
+        for(int i=0;i<spaceCount;i++){
+            System.out.print("-");
+        }
+        System.out.println();
+        // if(firstColumnCounter>=hitCountSpaceCount && firstColumnCounter >= relevanceSpaceCount){
+        //     for(int i=0;i<firstColumnCounter;i++){
+        //         System.out.print("_");
+        //     }
+        // }
+        // else if(hitCountSpaceCount>=firstColumnCounter && hitCountSpaceCount >= relevanceSpaceCount){
+
+        int totalHitCount = 0;
+        double totalRelevance = 0.0000;
+        // }
+        while(itNew.hasNext()){
+            Map.Entry val = (Map.Entry)itNew.next();
+            String companyName = val.getKey().toString();
+            int hitCounttt = Integer.parseInt(val.getValue().toString());
+            double relevanceCountPercent = relevance.get(companyName);
+            String relevanceCountPercentString = Double.toString(relevanceCountPercent);
+            //float relFloat = Float.parseFloat(relevanceCountPercentStringTemp);
+            //String relevanceCountPercentString = Float.toString(relFloat);
+            relevanceCountPercentString = relevanceCountPercentString + "%";
+            totalHitCount = totalHitCount + hitCounttt;
+            totalRelevance = totalRelevance + relevanceCountPercent;
+            System.out.format("%"+firstColumnCounter+"s"+"%"+hitCountSpaceCount+"d"+"%"+relevanceSpaceCount+"s",companyName,hitCounttt,relevanceCountPercentString);
+            System.out.println();
+        }
+
+        System.out.println();
+        for(int i=0;i<spaceCount;i++){
+            System.out.print("-");
+        }
+        System.out.println();
+
+        String relevenceTotalPercent = Double.toString(totalRelevance);
+        relevenceTotalPercent = relevenceTotalPercent + "%";
+
+        System.out.format("%"+firstColumnCounter+"s"+"%"+hitCountSpaceCount+"d"+"%"+relevanceSpaceCount+"s", "Total",totalHitCount,relevenceTotalPercent);
         
+        System.out.println();
+
+        System.out.println();
+        int totalWordsSpaceCount =spaceCount/2;
+        for(int i=0;i<spaceCount;i++){
+            System.out.print("-");
+        }
+        System.out.println();
+
+        System.out.format("%"+totalWordsSpaceCount+"s"+"%"+(totalWordsSpaceCount/2)+"d","Total Words",finalWordSet.size());
+        System.out.println();
+
     }
 
 }
